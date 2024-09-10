@@ -1,6 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
+import { FaEyeSlash } from "react-icons/fa6";
 
 const RegistrationLeft = () => {
+  // ==================== handelEmail funtion implement =====================
+  const [Email, setEmail] = useState("");
+  const handelEmail = (event) => {
+    setEmail(event.target.value);
+    console.log(event.target.value);
+  };
+  // ==================== handelEmail funtion implement =====================
+
+  // ==================== handelFullName funtion implement ==================
+  const [FullName, setFullName] = useState("");
+  const handelFullName = (event) => {
+    setFullName(event.target.value);
+    console.log(event.target.value);
+  };
+  // ==================== handelFullName funtion implement ==================
+
+  // ==================== handelPassword funtion implement ==================
+  const [Password, setPassword] = useState("");
+  const handelPassword = (event) => {
+    setPassword(event.target.value);  
+    console.log(event.target.value);
+  };
+  // ==================== handelPassword funtion implement ==================
+
   return (
     <>
       <div className="w-[60%] h-screen">
@@ -22,13 +47,13 @@ const RegistrationLeft = () => {
               <fieldset className="border-[2px] rounded-md border-[#11175d37]">
                 <legend className="font-nunito px-3 font-medium ml-8 text-[15.76px] text-auth_font_color">
                   Email Address
-                  <span>*</span>
                 </legend>
                 <input
                   type="text"
                   name="email"
                   id="email"
-                  className=" placeholder:text-auth_opasiti_color placeholder:text-[16px] p-4"
+                  onChange={handelEmail}
+                  className=" placeholder:text-auth_opasiti_color w-full placeholder:text-[16px] p-4"
                   placeholder="Enter your email"
                 />
               </fieldset>
@@ -39,13 +64,14 @@ const RegistrationLeft = () => {
             <div className="flex flex-col gap-y-3">
               <fieldset className="border-[2px] rounded-md border-[#11175d37]">
                 <legend className="font-nunito px-3 font-medium ml-8 text-[15.76px] text-auth_font_color">
-                  Full Name<span>*</span>
+                  Full Name
                 </legend>
                 <input
                   type="text"
                   name="name"
                   id="name"
-                  className=" placeholder:text-auth_opasiti_color placeholder:text-[16px] p-4"
+                  onChange={handelFullName}
+                  className=" placeholder:text-auth_opasiti_color w-full placeholder:text-[16px] p-4"
                   placeholder="Enter your name"
                 />
               </fieldset>
@@ -56,13 +82,14 @@ const RegistrationLeft = () => {
             <div className="flex flex-col gap-y-3">
               <fieldset className="border-[2px] rounded-md border-[#11175d37]">
                 <legend className="font-nunito px-3 font-medium ml-8 text-[15.76px] text-auth_font_color">
-                  Password<span>*</span>
+                  Password
                 </legend>
                 <input
                   type="password"
                   name="password"
                   id="password"
-                  className=" placeholder:text-auth_opasiti_color placeholder:text-[40px] p-4"
+                  onChange={handelPassword}
+                  className=" placeholder:text-auth_opasiti_color w-full placeholder:text-[40px] p-4"
                   placeholder=".........."
                 />
               </fieldset>

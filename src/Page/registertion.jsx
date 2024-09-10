@@ -1,6 +1,6 @@
 import React from 'react'
-import RegistrationLeft from '../Components/RegistrationComponent/RegistrationLeft'
-import RegistrationRight from '../Components/RegistrationComponent/RegistrationRight'
+import RegistrationLeft from '../Components/RegistrationComponent/RegistrationLeft.jsx'
+import RegistrationRight from '../Components/RegistrationComponent/RegistrationRight.jsx'
 
 const registertionLeft = () => {
   return (
