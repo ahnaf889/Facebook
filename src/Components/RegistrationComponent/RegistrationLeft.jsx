@@ -41,11 +41,15 @@ const RegistrationLeft = () => {
     if(!Email){
       setEmailerror('Missig your email')
     }else if(!FullName){
+      setEmailerror('')
       setFullNameerror('Missing your Name')
     }else if(!Password){
+      setFullNameerror('')
       setPassworderror('Your woring password')
     }else{
-      alert("Everything Is Ok")
+      setEmailerror('')
+      setFullNameerror('')
+      setPassworderror('')
     }
   };
   // ===================== handelButton funtion implement ====================
@@ -82,7 +86,7 @@ const RegistrationLeft = () => {
                 />
               </fieldset>
               <span className="text-auth_orenge_color">
-                {setEmailerror}
+                {Emailerror}
               </span>
             </div>
             {/* ======================= Email ====================== */}
@@ -103,7 +107,7 @@ const RegistrationLeft = () => {
                 />
               </fieldset>
               <span className="text-auth_orenge_color">
-                {setFullNameerror}
+                {FullNameerror}
               </span>
             </div>
             {/* =========================== Full Name ====================== */}
@@ -132,7 +136,7 @@ const RegistrationLeft = () => {
                 </div>
               </fieldset>
               <span className="text-auth_orenge_color">
-                {setPassworderror}
+                {Passworderror}
               </span>
             </div>
             {/* =========================== Password ======================= */}
