@@ -2,75 +2,74 @@ import React, { useState } from "react";
 import { FaEyeSlash, FaEye } from "react-icons/fa";
 
 const RegistrationLeft = () => {
-  // ==================== handelEmail funtion implement =====================
+  // State for form fields
   const [Email, setEmail] = useState("");
-  const [Emailerror, setEmailerror] = useState("");
-  const handelEmail = (event) => {
+  const [FullName, setFullName] = useState("");
+  const [Password, setPassword] = useState("");
+
+  // State for errors
+  const [EmailError, setEmailError] = useState("");
+  const [FullNameError, setFullNameError] = useState("");
+  const [PasswordError, setPasswordError] = useState("");
+
+  // Handle input changes
+  const handleEmail = (event) => {
     setEmail(event.target.value);
     console.log(event.target.value);
   };
-  // ==================== handelEmail funtion implement =====================
 
-  // ==================== handelFullName funtion implement ==================
-  const [FullName, setFullName] = useState("");
-  const [FullNameerror, setFullNameerror] = useState("");
-  const handelFullName = (event) => {
+  const handleFullName = (event) => {
     setFullName(event.target.value);
     console.log(event.target.value);
   };
-  // ==================== handelFullName funtion implement ==================
 
-  // ==================== handelPassword funtion implement ==================
-  const [Password, setPassword] = useState("");
-  const [Passworderror, setPassworderror] = useState("");
-  const handelPassword = (event) => {
+  const handlePassword = (event) => {
     setPassword(event.target.value);
     console.log(event.target.value);
   };
-  // ==================== handelPassword funtion implement ==================
 
-  // ==================== handelEye funtion implement =======================
-  const [Eyeopen, setEyeopen] = useState(true);
-  const handelEye = () => {
-    setEyeopen(!Eyeopen);
+  // Toggle password visibility
+  const [EyeOpen, setEyeOpen] = useState(true);
+  const handleEye = () => {
+    setEyeOpen(!EyeOpen);
   };
-  // ===================== handelEye funtion implement =======================
 
-  // ===================== handelButton funtion implement ====================
-  const handelButton = () => {
-    if(!Email){
-      setEmailerror('Missig your email')
-    }else if(!FullName){
-      setEmailerror('')
-      setFullNameerror('Missing your Name')
-    }else if(!Password){
-      setFullNameerror('')
-      setPassworderror('Your woring password')
+  // Handle form submission
+  const handleButton = () => {
+
+    // Validate fields
+    if (!Email) {
+      setEmailError("Please enter your email address.");
+    }else if (!FullName) {
+      setEmailError('')
+      setFullNameError("Please enter your full name.");
+    }else if (!Password) {
+      setFullNameError('')
+      setPasswordError("Please enter your password.");
     }else{
-      setEmailerror('')
-      setFullNameerror('')
-      setPassworderror('')
+      setEmailError('')
+      setFullNameError('')
+      setPasswordError('')
+      console.log('Thank You');
     }
   };
-  // ===================== handelButton funtion implement ====================
 
   return (
     <>
       <div className="w-[60%] h-screen">
         <div className="flex justify-center items-center h-full">
           <div className="flex flex-col gap-y-10">
-            {/* ======================= Register ====================== */}
+            {/* Register */}
             <div>
               <h1 className="font-nunito text-auth_font_color text-[38.4px] font-semibold leading-[43px]">
-                Get started with easily register
+                Get started with easy registration
               </h1>
-              <p className="pt-2 font-nunito text-auth_opasiti_color text-[20.64px] font">
-                Free register and you can enjoy it
+              <p className="pt-2 font-nunito text-auth_opasiti_color text-[20.64px]">
+                Free registration and you can enjoy it
               </p>
             </div>
-            {/* ======================= Register ====================== */}
-            {/* ======================= Email ====================== */}
 
+            {/* Email */}
             <div className="flex flex-col gap-y-3">
               <fieldset className="border-[2px] rounded-md border-[#11175d37]">
                 <legend className="font-nunito px-3 font-medium ml-8 text-[15.76px] text-auth_font_color">
@@ -79,19 +78,15 @@ const RegistrationLeft = () => {
                 <input
                   type="text"
                   name="email"
-                  id="email"
-                  onChange={handelEmail}
+                  onChange={handleEmail}
                   className=" placeholder:text-auth_opasiti_color w-full placeholder:text-[16px] p-4"
                   placeholder="Enter your email"
                 />
               </fieldset>
-              <span className="text-auth_orenge_color">
-                {Emailerror}
-              </span>
+              <span className="text-auth_orenge_color">{EmailError}</span>
             </div>
-            {/* ======================= Email ====================== */}
-            {/* =========================== Full Name ==================== */}
 
+            {/* Full Name */}
             <div className="flex flex-col gap-y-3">
               <fieldset className="border-[2px] rounded-md border-[#11175d37]">
                 <legend className="font-nunito px-3 font-medium ml-8 text-[15.76px] text-auth_font_color">
@@ -100,19 +95,15 @@ const RegistrationLeft = () => {
                 <input
                   type="text"
                   name="name"
-                  id="name"
-                  onChange={handelFullName}
+                  onChange={handleFullName}
                   className=" placeholder:text-auth_opasiti_color w-full placeholder:text-[16px] p-4"
                   placeholder="Enter your name"
                 />
               </fieldset>
-              <span className="text-auth_orenge_color">
-                {FullNameerror}
-              </span>
+              <span className="text-auth_orenge_color">{FullNameError}</span>
             </div>
-            {/* =========================== Full Name ====================== */}
-            {/* =========================== Password ======================= */}
 
+            {/* Password */}
             <div className="flex flex-col gap-y-3">
               <fieldset className="border-[2px] rounded-md border-[#11175d37]">
                 <legend className="font-nunito px-3 font-medium ml-8 text-[15.76px] text-auth_font_color">
@@ -120,41 +111,36 @@ const RegistrationLeft = () => {
                 </legend>
                 <div className="flex items-center">
                   <input
-                    type={Eyeopen ? "password" : "text"}
+                    type={EyeOpen ? "password" : "text"}
                     name="password"
-                    id="password"
-                    onChange={handelPassword}
-                    className=" placeholder:text-auth_opasiti_color w-full placeholder:text-[40px] p-4"
+                    onChange={handlePassword}
+                    className=" placeholder:text-auth_opasiti_color w-full placeholder:text-[16px] p-4"
                     placeholder=".........."
                   />
                   <span
-                    className=" pr-5 mt[-10px] cursor-pointer"
-                    onClick={handelEye}
+                    className="pr-5 cursor-pointer"
+                    onClick={handleEye}
                   >
-                    {Eyeopen ? <FaEyeSlash /> : <FaEye />}
+                    {EyeOpen ? <FaEyeSlash /> : <FaEye />}
                   </span>
                 </div>
               </fieldset>
-              <span className="text-auth_orenge_color">
-                {Passworderror}
-              </span>
+              <span className="text-auth_orenge_color">{PasswordError}</span>
             </div>
-            {/* =========================== Password ======================= */}
-            {/* =========================== Button ======================= */}
 
+            {/* Button */}
             <div className="flex items-center flex-col gap-y-3">
               <button
                 className="w-full py-[20px] rounded-[86px] bg-auth_bg_color font-nunito text-[22.64px] text-white font-medium"
-                onClick={handelButton}
+                onClick={handleButton}
               >
                 Sign up
               </button>
               <p className="font-nunito pt-5 cursor-pointer text-[15px]">
-                Already have an account ?
-                <span className="text-red-600 font-semibold">Sign In</span>
+                Already have an account?
+                <span className="text-red-600 font-semibold"> Sign In</span>
               </p>
             </div>
-            {/* =========================== Button ======================= */}
           </div>
         </div>
       </div>
