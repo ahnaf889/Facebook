@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { FaEyeSlash, FaEye } from "react-icons/fa";
+import {ValidateEmail, ValidateName, ValidatePassword} from '../../Utils/Validate.js'
 
 const RegistrationLeft = () => {
   // State for form fields
@@ -38,12 +39,12 @@ const RegistrationLeft = () => {
   const handleButton = () => {
 
     // Validate fields
-    if (!Email) {
+    if (!Email || !ValidateEmail(Email)) {
       setEmailError("Please enter your email address.");
-    }else if (!FullName) {
+    }else if (!FullName || !ValidateName(FullName)) { 
       setEmailError('')
       setFullNameError("Please enter your full name.");
-    }else if (!Password) {
+    }else if (!Password || !ValidatePassword(Password)) {
       setFullNameError('')
       setPasswordError("Please enter your password.");
     }else{
