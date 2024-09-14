@@ -1,8 +1,17 @@
 import React, { useState } from "react";
 import { FaEyeSlash, FaEye } from "react-icons/fa";
-import {ValidateEmail, ValidateName, ValidatePassword} from '../../Utils/Validate.js'
+import {
+  ValidateEmail,
+  ValidateName,
+  ValidatePassword,
+} from "../../Utils/Validate.js";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { toast, Bounce } from "react-toastify";
+import BeatLoader from "react-spinners/BeatLoader.js";
 
 const RegistrationLeft = () => {
+  const auth = getAuth();
+
   // State for form fields
   const [Email, setEmail] = useState("");
   const [FullName, setFullName] = useState("");
@@ -12,6 +21,9 @@ const RegistrationLeft = () => {
   const [EmailError, setEmailError] = useState("");
   const [FullNameError, setFullNameError] = useState("");
   const [PasswordError, setPasswordError] = useState("");
+
+  //State for loding
+  const [Loding, setLoding] = useState(false);
 
   // Handle input changes
   const handleEmail = (event) => {
@@ -37,21 +49,40 @@ const RegistrationLeft = () => {
 
   // Handle form submission
   const handleButton = () => {
-
     // Validate fields
     if (!Email || !ValidateEmail(Email)) {
       setEmailError("Please enter your email address.");
-    }else if (!FullName || !ValidateName(FullName)) { 
-      setEmailError('')
+    } else if (!FullName || !ValidateName(FullName)) {
+      setEmailError("");
       setFullNameError("Please enter your full name.");
-    }else if (!Password || !ValidatePassword(Password)) {
-      setFullNameError('')
+    } else if (!Password || !ValidatePassword(Password)) {
+      setFullNameError("");
       setPasswordError("Please enter your password.");
-    }else{
-      setEmailError('')
-      setFullNameError('')
-      setPasswordError('')
-      console.log('Thank You');
+    } else {
+      setEmailError("");
+      setFullNameError("");
+      setPasswordError("");
+      setLoding(true);
+      createUserWithEmailAndPassword(auth, Email, Password)
+        .then((userinfo) => {
+          toast.success("Your Registrtion Done", {
+            position: "top-left",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            transition: Bounce,
+          });
+        })
+        .then(() => {
+          setLoding(false);
+        })
+        .catch((err) => {
+          console.log(err.message);
+        });
     }
   };
 
@@ -118,10 +149,7 @@ const RegistrationLeft = () => {
                     className=" placeholder:text-auth_opasiti_color w-full placeholder:text-[16px] p-4"
                     placeholder=".........."
                   />
-                  <span
-                    className="pr-5 cursor-pointer"
-                    onClick={handleEye}
-                  >
+                  <span className="pr-5 cursor-pointer" onClick={handleEye}>
                     {EyeOpen ? <FaEyeSlash /> : <FaEye />}
                   </span>
                 </div>
@@ -135,7 +163,17 @@ const RegistrationLeft = () => {
                 className="w-full py-[20px] rounded-[86px] bg-auth_bg_color font-nunito text-[22.64px] text-white font-medium"
                 onClick={handleButton}
               >
-                Sign up
+                {Loding ? (
+                  <BeatLoader
+                    loading={Loding}
+                    color="#FFFFFF"
+                    size={22}
+                    aria-label="Loading Spinner"
+                    data-testid="loader"
+                  />
+                ) : (
+                  "Sign up"
+                )}
               </button>
               <p className="font-nunito pt-5 cursor-pointer text-[15px]">
                 Already have an account?
