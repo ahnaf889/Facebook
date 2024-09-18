@@ -5,9 +5,13 @@ import {
   ValidateName,
   ValidatePassword,
 } from "../../Utils/Validate.js";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { toast, Bounce } from "react-toastify";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+} from "firebase/auth";
 import BeatLoader from "react-spinners/BeatLoader.js";
+import { successToast, errorToast, infoToast } from "../../Utils/Toast.js";
 
 const RegistrationLeft = () => {
   const auth = getAuth();
@@ -49,39 +53,38 @@ const RegistrationLeft = () => {
 
   // Handle form submission
   const handleButton = () => {
-    // Validate fields
     if (!Email || !ValidateEmail(Email)) {
-      setEmailError("Please enter your email address.");
+      setEmailError("Please enter a valid email address.");
     } else if (!FullName || !ValidateName(FullName)) {
       setEmailError("");
       setFullNameError("Please enter your full name.");
     } else if (!Password || !ValidatePassword(Password)) {
       setFullNameError("");
-      setPasswordError("Please enter your password.");
+      setPasswordError("Please enter a valid password.");
     } else {
       setEmailError("");
       setFullNameError("");
       setPasswordError("");
       setLoding(true);
+
+      // Create user with email and password
       createUserWithEmailAndPassword(auth, Email, Password)
-        .then((userinfo) => {
-          toast.success("Your Registrtion Done", {
-            position: "top-left",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
-            transition: Bounce,
-          });
-        })
+        .then((userinfo) => {})
         .then(() => {
-          setLoding(false);
+          successToast("Your Registration is done");
         })
-        .catch((err) => {
-          console.log(err.message);
+        .catch((error) => {
+          const ourError = error.message.split("/")[1];
+          errorToast(ourError.slice(0, ourError.length - 2));
+        })
+        .finally(() => {
+          setEmailError("");
+          setFullNameError("");
+          setPasswordError("");
+          setEmail("");
+          setFullName("");
+          setPassword("");
+          setLoding(false);
         });
     }
   };
@@ -91,7 +94,7 @@ const RegistrationLeft = () => {
       <div className="w-[60%] h-screen">
         <div className="flex justify-center items-center h-full">
           <div className="flex flex-col gap-y-10">
-            {/* Register */}
+            {/* Register impliment */}
             <div>
               <h1 className="font-nunito text-auth_font_color text-[38.4px] font-semibold leading-[43px]">
                 Get started with easy registration
@@ -100,8 +103,7 @@ const RegistrationLeft = () => {
                 Free registration and you can enjoy it
               </p>
             </div>
-
-            {/* Email */}
+            Email
             <div className="flex flex-col gap-y-3">
               <fieldset className="border-[2px] rounded-md border-[#11175d37]">
                 <legend className="font-nunito px-3 font-medium ml-8 text-[15.76px] text-auth_font_color">
@@ -110,6 +112,7 @@ const RegistrationLeft = () => {
                 <input
                   type="text"
                   name="email"
+                  value={Email}
                   onChange={handleEmail}
                   className=" placeholder:text-auth_opasiti_color w-full placeholder:text-[16px] p-4"
                   placeholder="Enter your email"
@@ -117,8 +120,7 @@ const RegistrationLeft = () => {
               </fieldset>
               <span className="text-auth_orenge_color">{EmailError}</span>
             </div>
-
-            {/* Full Name */}
+            {/* Full Name impliment */}
             <div className="flex flex-col gap-y-3">
               <fieldset className="border-[2px] rounded-md border-[#11175d37]">
                 <legend className="font-nunito px-3 font-medium ml-8 text-[15.76px] text-auth_font_color">
@@ -127,6 +129,7 @@ const RegistrationLeft = () => {
                 <input
                   type="text"
                   name="name"
+                  value={FullName}
                   onChange={handleFullName}
                   className=" placeholder:text-auth_opasiti_color w-full placeholder:text-[16px] p-4"
                   placeholder="Enter your name"
@@ -134,8 +137,7 @@ const RegistrationLeft = () => {
               </fieldset>
               <span className="text-auth_orenge_color">{FullNameError}</span>
             </div>
-
-            {/* Password */}
+            {/* Password impliment */}
             <div className="flex flex-col gap-y-3">
               <fieldset className="border-[2px] rounded-md border-[#11175d37]">
                 <legend className="font-nunito px-3 font-medium ml-8 text-[15.76px] text-auth_font_color">
@@ -145,6 +147,7 @@ const RegistrationLeft = () => {
                   <input
                     type={EyeOpen ? "password" : "text"}
                     name="password"
+                    value={Password}
                     onChange={handlePassword}
                     className=" placeholder:text-auth_opasiti_color w-full placeholder:text-[16px] p-4"
                     placeholder=".........."
@@ -156,8 +159,7 @@ const RegistrationLeft = () => {
               </fieldset>
               <span className="text-auth_orenge_color">{PasswordError}</span>
             </div>
-
-            {/* Button */}
+            {/* Button impliment */}
             <div className="flex items-center flex-col gap-y-3">
               <button
                 className="w-full py-[20px] rounded-[86px] bg-auth_bg_color font-nunito text-[22.64px] text-white font-medium"
