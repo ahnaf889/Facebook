@@ -163,8 +163,7 @@ const RegistrationLeft = () => {
             <div className="flex items-center flex-col gap-y-3">
               <button
                 className="w-full py-[20px] rounded-[86px] bg-auth_bg_color font-nunito text-[22.64px] text-white font-medium"
-                onClick={handleButton}
-              >
+                onClick={handleButton}>
                 {Loding ? (
                   <BeatLoader
                     loading={Loding}

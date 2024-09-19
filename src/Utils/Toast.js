@@ -1,3 +1,5 @@
+/** @format */
+
 import { toast, Bounce } from "react-toastify";
 
 /**
