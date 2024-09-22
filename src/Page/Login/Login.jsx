@@ -4,7 +4,7 @@ import LoginRight from "../../Components/LoginComponent/LoginRight.jsx";
 
 const Login = () => {
   return (
-    <div>
+    <div className="flex justify-between items-center h-screen">
       <LoginLeft />
       <LoginRight />
     </div>
