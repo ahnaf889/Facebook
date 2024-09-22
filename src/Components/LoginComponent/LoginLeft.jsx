@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { CgPassword } from "react-icons/cg";
 import {
   FaGoogle,
   FaFacebookSquare,
@@ -10,8 +11,19 @@ import {
 const LoginLeft = () => {
   // Toggle password visibility
   const [EyeOpen, setEyeOpen] = useState(true);
-  const handleEye = () => {
-    setEyeOpen(!EyeOpen);
+
+  // Toggle handelLoginInput visibility
+  const [loginInfo, setloginInfo] = useState({
+    email: "",
+    password: "",
+  });
+
+  //handelLoginInput funtion emplement
+  const handelLoginInput = (event) => {
+    setloginInfo({
+      ...loginInfo,
+      [event.target.id]: event.target.value,
+    });
   };
 
   return (
@@ -56,6 +68,8 @@ const LoginLeft = () => {
               <input
                 type="text"
                 name="email"
+                id="email"
+                onChange={handelLoginInput}
                 className=" placeholder:text-auth_opasiti_color w-full placeholder:text-[16px] p-4"
                 placeholder="Enter your email"
               />
@@ -72,12 +86,14 @@ const LoginLeft = () => {
                 <input
                   type={EyeOpen ? "password" : "text"}
                   name="password"
+                  id="password"
+                  onChange={handelLoginInput}
                   className=" placeholder:text-auth_opasiti_color w-full placeholder:text-[16px] p-4"
                   placeholder=".........."
                 />
                 <span
                   className="pr-5 cursor-pointer"
-                  onClick={handleEye}
+                  onClick={() => setEyeOpen(!EyeOpen)}
                   value={EyeOpen}>
                   {EyeOpen ? <FaEyeSlash /> : <FaEye />}
                 </span>

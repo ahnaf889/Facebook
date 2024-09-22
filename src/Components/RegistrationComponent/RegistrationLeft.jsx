@@ -12,11 +12,15 @@ import {
   onAuthStateChanged,
   updateProfile,
 } from "firebase/auth";
+import { getDatabase, ref, set } from "firebase/database";
 import BeatLoader from "react-spinners/BeatLoader.js";
 import { successToast, errorToast, infoToast } from "../../Utils/Toast.js";
+import { getTime } from "../../Utils/Moment/Moment.js";
 
+//Code Start now ============ ?
 const RegistrationLeft = () => {
   const auth = getAuth();
+  const db = getDatabase();
 
   // State for form fields
   const [Email, setEmail] = useState("");
@@ -91,9 +95,25 @@ const RegistrationLeft = () => {
             displayName: FullName,
           });
         })
+        .then(() => {
+          const usersRef = ref(db, "user/");
+          set(usersRef, {
+            uid: auth.currentUser.uid,
+            userName: FullName,
+            userEmail: auth.currentUser.uid,
+            createdAt: getTime(),
+          });
+        })
+        .then(() => {
+          console.log("Wirte data on user collection");
+        })
+        .catch((err) => {
+          console.error("User Database Write Failds");
+        })
         .catch((error) => {
-          const ourError = error.message.split("/")[1];
-          errorToast(ourError.slice(0, ourError.length - 2));
+          // const ourError = error.message.split("/")[1];
+          // errorToast(ourError.slice(0, ourError.length - 2));
+          errorToast(error.code);
         })
         .finally(() => {
           setEmailError("");
