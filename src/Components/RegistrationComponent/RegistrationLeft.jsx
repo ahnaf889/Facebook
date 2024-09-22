@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaEyeSlash, FaEye } from "react-icons/fa";
 import {
   ValidateEmail,
@@ -9,6 +9,8 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   sendEmailVerification,
+  onAuthStateChanged,
+  updateProfile,
 } from "firebase/auth";
 import BeatLoader from "react-spinners/BeatLoader.js";
 import { successToast, errorToast, infoToast } from "../../Utils/Toast.js";
@@ -51,6 +53,13 @@ const RegistrationLeft = () => {
     setEyeOpen(!EyeOpen);
   };
 
+  //useEffect funtion user implement
+  useEffect(() => {
+    onAuthStateChanged(auth, (userinfo) => {
+      console.log(userinfo.displayName);
+    });
+  }, []);
+
   // Handle form submission
   const handleButton = () => {
     if (!Email || !ValidateEmail(Email)) {
@@ -69,9 +78,18 @@ const RegistrationLeft = () => {
 
       // Create user with email and password
       createUserWithEmailAndPassword(auth, Email, Password)
-        .then((userinfo) => {})
-        .then(() => {
+        .then((userinfo) => {
           successToast("Your Registration is done");
+        })
+        .then(() => {
+          sendEmailVerification(auth.currentUser).then(() => {
+            successToast("Please check your email");
+          });
+        })
+        .then(() => {
+          updateProfile(auth.currentUser, {
+            displayName: FullName,
+          });
         })
         .catch((error) => {
           const ourError = error.message.split("/")[1];
@@ -85,6 +103,7 @@ const RegistrationLeft = () => {
           setFullName("");
           setPassword("");
           setLoding(false);
+          setEyeOpen(true);
         });
     }
   };
@@ -152,8 +171,11 @@ const RegistrationLeft = () => {
                     className=" placeholder:text-auth_opasiti_color w-full placeholder:text-[16px] p-4"
                     placeholder=".........."
                   />
-                  <span className="pr-5 cursor-pointer" onClick={handleEye}>
-                    {EyeOpen ? <FaEyeSlash /> : <FaEye />}
+                  <span
+                    className="pr-5 cursor-pointer"
+                    onClick={handleEye}
+                    value={EyeOpen}>
+                    {EyeOpen ? <FaEye /> : <FaEyeSlash />}
                   </span>
                 </div>
               </fieldset>
