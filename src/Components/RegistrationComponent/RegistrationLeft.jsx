@@ -12,15 +12,17 @@ import {
   onAuthStateChanged,
   updateProfile,
 } from "firebase/auth";
-import { getDatabase, ref, set } from "firebase/database";
+import { getDatabase, ref, set, push } from "firebase/database";
 import BeatLoader from "react-spinners/BeatLoader.js";
 import { successToast, errorToast, infoToast } from "../../Utils/Toast.js";
 import { getTime } from "../../Utils/Moment/Moment.js";
+import { useNavigate, Link } from "react-router-dom";
 
 //Code Start now ============ ?
 const RegistrationLeft = () => {
   const auth = getAuth();
   const db = getDatabase();
+  const navigate = useNavigate();
 
   // State for form fields
   const [Email, setEmail] = useState("");
@@ -38,21 +40,18 @@ const RegistrationLeft = () => {
   // Handle input changes
   const handleEmail = (event) => {
     setEmail(event.target.value);
-    console.log(event.target.value);
   };
 
   const handleFullName = (event) => {
     setFullName(event.target.value);
-    console.log(event.target.value);
   };
 
   const handlePassword = (event) => {
     setPassword(event.target.value);
-    console.log(event.target.value);
   };
 
   // Toggle password visibility
-  const [EyeOpen, setEyeOpen] = useState(true);
+  const [EyeOpen, setEyeOpen] = useState(false);
   const handleEye = () => {
     setEyeOpen(!EyeOpen);
   };
@@ -83,11 +82,11 @@ const RegistrationLeft = () => {
       // Create user with email and password
       createUserWithEmailAndPassword(auth, Email, Password)
         .then((userinfo) => {
-          successToast("Your Registration is done");
+          successToast("Your Registration is done", "top-left");
         })
         .then(() => {
           sendEmailVerification(auth.currentUser).then(() => {
-            successToast("Please check your email");
+            successToast("Please check your email", "top-left");
           });
         })
         .then(() => {
@@ -97,15 +96,16 @@ const RegistrationLeft = () => {
         })
         .then(() => {
           const usersRef = ref(db, "user/");
-          set(usersRef, {
+          set(push(usersRef), {
             uid: auth.currentUser.uid,
             userName: FullName,
-            userEmail: auth.currentUser.uid,
+            userEmail: auth.currentUser.email,
             createdAt: getTime(),
           });
         })
         .then(() => {
           console.log("Wirte data on user collection");
+          navigate("/login");
         })
         .catch((err) => {
           console.error("User Database Write Failds");
@@ -113,7 +113,7 @@ const RegistrationLeft = () => {
         .catch((error) => {
           // const ourError = error.message.split("/")[1];
           // errorToast(ourError.slice(0, ourError.length - 2));
-          errorToast(error.code);
+          errorToast(error.code, "top-right");
         })
         .finally(() => {
           setEmailError("");
@@ -123,7 +123,7 @@ const RegistrationLeft = () => {
           setFullName("");
           setPassword("");
           setLoding(false);
-          setEyeOpen(true);
+          setEyeOpen(false);
         });
     }
   };
@@ -184,7 +184,7 @@ const RegistrationLeft = () => {
                 </legend>
                 <div className="flex items-center">
                   <input
-                    type={EyeOpen ? "password" : "text"}
+                    type={EyeOpen ? "text" : "password"}
                     name="password"
                     value={Password}
                     onChange={handlePassword}
@@ -220,7 +220,9 @@ const RegistrationLeft = () => {
               </button>
               <p className="font-nunito pt-5 cursor-pointer text-[15px]">
                 Already have an account?
-                <span className="text-red-600 font-semibold"> Sign In</span>
+                <Link to="/login">
+                  <span className="text-red-600 font-semibold"> Sign In</span>
+                </Link>
               </p>
             </div>
           </div>

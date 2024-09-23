@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { CgPassword } from "react-icons/cg";
 import {
   FaGoogle,
   FaFacebookSquare,
@@ -7,10 +6,24 @@ import {
   FaEye,
   FaGithub,
 } from "react-icons/fa";
+import { useNavigate, Link } from "react-router-dom";
+import { ValidateEmail, ValidatePassword } from "../../Utils/Validate.js";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { successToast, errorToast } from "../../Utils/Toast.js";
+import BeatLoader from "react-spinners/BeatLoader.js";
 
+//LoginLefat Starat Point
 const LoginLeft = () => {
+  /**
+   * todo: firebase auth implemnt
+   * @param({})
+   */
+  const auth = getAuth();
+  const navigate = useNavigate();
+
   // Toggle password visibility
-  const [EyeOpen, setEyeOpen] = useState(true);
+  const [EyeOpen, setEyeOpen] = useState(false);
+  const [Loding, setLoding] = useState(false);
 
   // Toggle handelLoginInput visibility
   const [loginInfo, setloginInfo] = useState({
@@ -24,6 +37,56 @@ const LoginLeft = () => {
       ...loginInfo,
       [event.target.id]: event.target.value,
     });
+  };
+
+  // Toggle inputError state visibility
+  const [loginError, setloginError] = useState({
+    emailError: "",
+    passwordError: "",
+  });
+
+  //handelSignUp state funtion emplement
+  const handelSignUp = () => {
+    const { email, password } = loginInfo;
+    if (!email || !ValidateEmail(email)) {
+      setloginError({
+        ...loginError,
+        emailError: "Your email is wrong !!",
+      });
+    } else if (!password || !ValidatePassword(password)) {
+      setloginError({
+        ...loginError,
+        passwordError: "Your password is wrong !!",
+        emailError: "",
+      });
+    } else {
+      setloginError({
+        ...loginError,
+        passwordError: "",
+        emailError: "",
+      });
+      setLoding(true);
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userInfo) => {
+          console.log(userInfo);
+          successToast("Success your login");
+        })
+        .catch((Error) => {
+          errorToast(Error.code);
+        })
+        .finally(() => {
+          setloginError({
+            ...loginError,
+            ...loginInfo,
+            email: "",
+            password: "",
+            passwordError: "",
+            emailError: "",
+          });
+          setEyeOpen(true);
+          setLoding(false);
+        });
+    }
   };
 
   return (
@@ -74,6 +137,9 @@ const LoginLeft = () => {
                 placeholder="Enter your email"
               />
             </fieldset>
+            <span className="text-auth_orenge_color">
+              {loginError.emailError}
+            </span>
           </div>
 
           {/* Password impliment */}
@@ -84,7 +150,7 @@ const LoginLeft = () => {
               </legend>
               <div className="flex items-center">
                 <input
-                  type={EyeOpen ? "password" : "text"}
+                  type={EyeOpen ? "text" : "password"}
                   name="password"
                   id="password"
                   onChange={handelLoginInput}
@@ -95,20 +161,37 @@ const LoginLeft = () => {
                   className="pr-5 cursor-pointer"
                   onClick={() => setEyeOpen(!EyeOpen)}
                   value={EyeOpen}>
-                  {EyeOpen ? <FaEyeSlash /> : <FaEye />}
+                  {EyeOpen ? <FaEye /> : <FaEyeSlash />}
                 </span>
               </div>
             </fieldset>
+            <span className="text-auth_orenge_color">
+              {loginError.passwordError}
+            </span>
           </div>
 
           {/* Button impliment */}
           <div className="flex items-center flex-col gap-y-3">
-            <button className="w-full py-[20px] rounded-2xl bg-auth_bg_color font-nunito text-[22.64px] text-white font-medium">
-              Login to Continue
+            <button
+              className="w-full py-[20px] rounded-2xl bg-auth_bg_color font-nunito text-[22.64px] text-white font-medium"
+              onClick={handelSignUp}>
+              {Loding ? (
+                <BeatLoader
+                  loading={Loding}
+                  color="#FFFFFF"
+                  size={22}
+                  aria-label="Loading Spinner"
+                  data-testid="loader"
+                />
+              ) : (
+                "Sign Up"
+              )}
             </button>
             <p className="font-nunito pt-5 cursor-pointer text-[15px]">
               Already have an account?
-              <span className="text-red-600 font-semibold"> Sign In</span>
+              <Link to="/registration">
+                <span className="text-red-600 font-semibold"> Sign Up</span>
+              </Link>
             </p>
           </div>
         </div>

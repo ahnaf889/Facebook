@@ -6,10 +6,10 @@ import { toast, Bounce } from "react-toastify";
  * todo: SuccessToast funtion implement
  * @param {*} message
  */
-export const successToast = (message) => {
+export const successToast = (message, position = "top-left") => {
   toast.success(message, {
-    position: "top-left",
     autoClose: 5000,
+    position,
     hideProgressBar: false,
     closeOnClick: true,
     pauseOnHover: true,
@@ -24,10 +24,10 @@ export const successToast = (message) => {
  * todo: Errortoast funtion implement
  * @param {*} message
  */
-export const errorToast = (message) => {
+export const errorToast = (message, position = "top-right") => {
   toast.error(message, {
-    position: "top-right",
     autoClose: 5000,
+    position,
     hideProgressBar: false,
     closeOnClick: true,
     pauseOnHover: true,
@@ -42,10 +42,10 @@ export const errorToast = (message) => {
  * todo: InfoToast funtion implement
  * @param {*} message
  */
-export const infoToast = (message) => {
+export const infoToast = (message, position = "top-right") => {
   toast.info(message, {
-    position: "top-right",
     autoClose: 5000,
+    position,
     hideProgressBar: false,
     closeOnClick: true,
     pauseOnHover: true,
