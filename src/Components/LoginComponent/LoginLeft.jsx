@@ -121,14 +121,17 @@ const LoginLeft = () => {
         set(push(usersRef), {
           uid: auth.currentUser.uid,
           userEmail: auth.currentUser.email,
-          displayName: auth.currentUser.displayName,
+          userName: auth.currentUser.displayName,
           createdAt: getTime(),
         });
+      })
+      .then(() => {
+        successToast("Your google login is done");
       })
       .catch((error) => {
         // Handle Errors here.
         const errorCode = error.code;
-        console.log(errorCode);
+        errorToast(errorCode);
       });
   };
 
