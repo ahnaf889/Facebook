@@ -8,9 +8,17 @@ import {
 } from "react-icons/fa";
 import { useNavigate, Link } from "react-router-dom";
 import { ValidateEmail, ValidatePassword } from "../../Utils/Validate.js";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
+  FacebookAuthProvider,
+} from "firebase/auth";
+import { getDatabase, ref, set, push } from "firebase/database";
 import { successToast, errorToast } from "../../Utils/Toast.js";
 import BeatLoader from "react-spinners/BeatLoader.js";
+import { getTime } from "../../Utils/Moment/Moment.js";
 
 //LoginLefat Starat Point
 const LoginLeft = () => {
@@ -20,6 +28,7 @@ const LoginLeft = () => {
    */
   const auth = getAuth();
   const navigate = useNavigate();
+  const db = getDatabase();
 
   // Toggle password visibility
   const [EyeOpen, setEyeOpen] = useState(false);
@@ -45,7 +54,10 @@ const LoginLeft = () => {
     passwordError: "",
   });
 
-  //handelSignUp state funtion emplement
+  /**
+   * todo: handelSingUp funtion emplement
+   * @param({})
+   */
   const handelSignUp = () => {
     const { email, password } = loginInfo;
     if (!email || !ValidateEmail(email)) {
@@ -66,27 +78,78 @@ const LoginLeft = () => {
         emailError: "",
       });
       setLoding(true);
-      createUserWithEmailAndPassword(auth, email, password)
+      signInWithEmailAndPassword(auth, email, password)
         .then((userInfo) => {
           console.log(userInfo);
           successToast("Success your login");
         })
         .catch((Error) => {
-          errorToast(Error.code);
+          errorToast(`${Error.code}`, "top-right");
         })
         .finally(() => {
-          setloginError({
+          setloginInfo({
             ...loginError,
-            ...loginInfo,
             email: "",
             password: "",
+          });
+          setloginError({
+            ...loginError,
             passwordError: "",
             emailError: "",
           });
-          setEyeOpen(true);
+          setEyeOpen(false);
           setLoding(false);
         });
     }
+  };
+
+  /**
+   * todo: handelGoogleLogin funtion emplement
+   * @param({})
+   */
+  const handelGoogleLogin = () => {
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        const credential = FacebookAuthProvider.credentialFromResult(result);
+        const accessToken = credential.accessToken;
+        const user = result.user;
+        console.log(user);
+      })
+      .then(() => {
+        const usersRef = ref(db, "user/");
+        set(push(usersRef), {
+          uid: auth.currentUser.uid,
+          userEmail: auth.currentUser.email,
+          displayName: auth.currentUser.displayName,
+          createdAt: getTime(),
+        });
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        console.log(errorCode);
+      });
+  };
+
+  /**
+   * todo: handelFacebookLoign funtion emplemnt
+   * @param({})
+   */
+  const handelFacebookLoign = () => {
+    const provider = new FacebookAuthProvider();
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        const credential = FacebookAuthProvider.credentialFromResult(result);
+        const accessToken = credential.accessToken;
+        const user = result.user;
+        console.log(user);
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        console.log(errorCode);
+      });
   };
 
   return (
@@ -104,7 +167,10 @@ const LoginLeft = () => {
               Login to your account!
             </h3>
             <div className="flex justify-between">
-              <div className="flex items-center cursor-pointer gap-x-3 w-[200.9px] px-4 h-[58.52px] border-auth_font_color border-opacity-35 rounded-md border-2">
+              {/* ===== Google ===== */}
+              <div
+                className="flex items-center cursor-pointer gap-x-3 w-[200.9px] px-4 h-[58.52px] border-auth_font_color border-opacity-35 rounded-md border-2"
+                onClick={handelGoogleLogin}>
                 <span className="text-blue-800 text-[20px]">
                   <FaGoogle />
                 </span>
@@ -112,7 +178,10 @@ const LoginLeft = () => {
                   Login with Google
                 </p>
               </div>
-              <div className="flex items-center cursor-pointer gap-x-3 w-[200.9px] px-4 h-[58.52px] border-auth_font_color border-opacity-35 rounded-md border-2">
+              {/* ===== Facebook ===== */}
+              <div
+                className="flex items-center cursor-pointer gap-x-3 w-[200.9px] px-4 h-[58.52px] border-auth_font_color border-opacity-35 rounded-md border-2"
+                onClick={handelFacebookLoign}>
                 <span className="text-blue-800 text-[20px]">
                   <FaFacebookSquare />
                 </span>
@@ -132,6 +201,7 @@ const LoginLeft = () => {
                 type="text"
                 name="email"
                 id="email"
+                value={loginInfo.email}
                 onChange={handelLoginInput}
                 className=" placeholder:text-auth_opasiti_color w-full placeholder:text-[16px] p-4"
                 placeholder="Enter your email"
@@ -153,6 +223,7 @@ const LoginLeft = () => {
                   type={EyeOpen ? "text" : "password"}
                   name="password"
                   id="password"
+                  value={loginInfo.password}
                   onChange={handelLoginInput}
                   className=" placeholder:text-auth_opasiti_color w-full placeholder:text-[16px] p-4"
                   placeholder=".........."
@@ -178,7 +249,7 @@ const LoginLeft = () => {
               {Loding ? (
                 <BeatLoader
                   loading={Loding}
-                  color="#FFFFFF"
+                  color="#FF0000"
                   size={22}
                   aria-label="Loading Spinner"
                   data-testid="loader"

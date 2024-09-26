@@ -142,7 +142,6 @@ const RegistrationLeft = () => {
                 Free registration and you can enjoy it
               </p>
             </div>
-            Email
             <div className="flex flex-col gap-y-3">
               <fieldset className="border-[2px] rounded-md border-[#11175d37]">
                 <legend className="font-nunito px-3 font-medium ml-8 text-[15.76px] text-auth_font_color">
