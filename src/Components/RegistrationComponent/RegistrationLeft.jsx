@@ -28,7 +28,6 @@ const RegistrationLeft = () => {
   const [Email, setEmail] = useState("");
   const [FullName, setFullName] = useState("");
   const [Password, setPassword] = useState("");
-
   // State for errors
   const [EmailError, setEmailError] = useState("");
   const [FullNameError, setFullNameError] = useState("");
