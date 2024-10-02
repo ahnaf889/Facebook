@@ -3,6 +3,7 @@ import Registration from "./Page/Registration/registertion.jsx";
 import Login from "./Page/Login/Login.jsx";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Home from "./Page/Home/Home.jsx";
 import {
   createRoutesFromElements,
   createBrowserRouter,
@@ -16,6 +17,7 @@ const App = () => {
       <>
         <Route path="/registration" element={<Registration />}></Route>
         <Route path="/login" element={<Login />}></Route>
+        <Route path="/" element={<Home />}></Route>
       </>
     )
   );
