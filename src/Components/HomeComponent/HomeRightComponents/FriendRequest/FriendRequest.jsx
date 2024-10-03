@@ -2,13 +2,13 @@ import React from 'react';
 import {PiDotsThreeOutlineVerticalFill} from 'react-icons/pi';
 import ProfileGroup from '../../../../assets/ProfileGroup.png';
 
-const GroupList = () => {
+const FriendRequest = () => {
   return (
     <>
       <div className="w-[520px] h-[390px] p-3 Boxshadow rounded-xl mt-5">
         <div className="flex justify-between">
           <span className="text-black font-poppins text-base font-semibold">
-            Groups List
+            Friend Request
           </span>
           <span className="text-auth_bg_color cursor-pointer">
             <PiDotsThreeOutlineVerticalFill />
@@ -48,4 +48,4 @@ const GroupList = () => {
   );
 };
 
-export default GroupList;
+export default FriendRequest;

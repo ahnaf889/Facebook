@@ -16,7 +16,7 @@ const HomeLeft = () => {
   return (
     <>
       <div className="bg-auth_bg_color w-[186px] h-[920px] rounded-2xl">
-        <div className="flex flex-col items-center justify-center gap-y-24 mt-14">
+        <div className="flex flex-col items-center justify-center gap-y-24  mt-14">
           <picture className=" cursor-pointer">
             <img
               src={Profile}
@@ -26,7 +26,7 @@ const HomeLeft = () => {
           <span
             className={`${
               test == 'home' &&
-              'text-[40px] cursor-pointer iconsBg rounded-l-lg  text-auth_bg_color bg-white px-16 py-4'
+              'text-[40px] cursor-pointer iconsBg rounded-l-lg  text-auth_bg_color bg-white px-16 py-5'
             } text-[40px] cursor-pointer`}
           >
             <IoHomeOutline />
@@ -34,7 +34,7 @@ const HomeLeft = () => {
           <span
             className={`${
               test == 'chat' &&
-              'text-[40px] cursor-pointer iconsBg rounded-l-lg  text-auth_bg_color bg-white px-16 py-4'
+              'text-[40px] cursor-pointer iconsBg rounded-l-lg  text-auth_bg_color bg-white px-16 py-5'
             } text-[40px] cursor-pointer`}
           >
             <FaFacebookMessenger />
@@ -42,7 +42,7 @@ const HomeLeft = () => {
           <span
             className={`${
               test == 'notification' &&
-              'text-[40px] cursor-pointer iconsBg rounded-l-lg  text-auth_bg_color bg-white px-16 py-4'
+              'text-[40px] cursor-pointer iconsBg rounded-l-lg  text-auth_bg_color bg-white px-16 py-5'
             } text-[40px] cursor-pointer`}
           >
             <FaRegBell />
@@ -50,7 +50,7 @@ const HomeLeft = () => {
           <span
             className={`${
               test == 'setting' &&
-              'text-[40px] cursor-pointer iconsBg rounded-l-lg  text-auth_bg_color bg-white px-16 py-4'
+              'text-[40px] cursor-pointer iconsBg rounded-l-lg  text-auth_bg_color bg-white px-16 py-5'
             } text-[40px] cursor-pointer`}
           >
             <CiSettings />
@@ -58,7 +58,7 @@ const HomeLeft = () => {
           <span
             className={`${
               test == 'logOut' &&
-              'text-[40px] cursor-pointer iconsBg rounded-l-lg  text-auth_bg_color bg-white px-16 py-4'
+              'text-[40px] cursor-pointer iconsBg rounded-l-lg  text-auth_bg_color bg-white  py-6'
             } text-[40px] cursor-pointer`}
           >
             <LuLogOut />

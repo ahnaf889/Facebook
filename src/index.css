@@ -59,7 +59,7 @@
     position: absolute;
     content: '';
     top: 0;
-    right: -9px;
+    right: 0;
     width: 15px;
     height: 100%;
     background: #5f35f5;
@@ -70,11 +70,12 @@
     position: absolute;
     content: '';
     top: 0;
-    right: -9px;
-    width: 100%;
+    right: 0;
+    width: 90%;
     height: 100%;
     background: white;
-    z-index: -1;
+    border-top-left-radius: 10px;
+    z-index: -2;
   }
 
   .Boxshadow {
