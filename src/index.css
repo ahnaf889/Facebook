@@ -75,7 +75,7 @@
     height: 100%;
     background: white;
     border-top-left-radius: 10px;
-    z-index: -2;
+    z-index: -1;
   }
 
   .Boxshadow {
