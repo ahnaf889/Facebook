@@ -1,22 +1,22 @@
-import React, { useEffect, useState } from "react";
-import { FaEyeSlash, FaEye } from "react-icons/fa";
+import React, {useEffect, useState} from 'react';
+import {FaEyeSlash, FaEye} from 'react-icons/fa';
 import {
   ValidateEmail,
   ValidateName,
   ValidatePassword,
-} from "../../Utils/Validate.js";
+} from '../../Utils/Validate.js';
 import {
   getAuth,
   createUserWithEmailAndPassword,
   sendEmailVerification,
   onAuthStateChanged,
   updateProfile,
-} from "firebase/auth";
-import { getDatabase, ref, set, push } from "firebase/database";
-import BeatLoader from "react-spinners/BeatLoader.js";
-import { successToast, errorToast, infoToast } from "../../Utils/Toast.js";
-import { getTime } from "../../Utils/Moment/Moment.js";
-import { useNavigate, Link } from "react-router-dom";
+} from 'firebase/auth';
+import {getDatabase, ref, set, push} from 'firebase/database';
+import BeatLoader from 'react-spinners/BeatLoader.js';
+import {successToast, errorToast, infoToast} from '../../Utils/Toast.js';
+import {getTime} from '../../Utils/Moment/Moment.js';
+import {useNavigate, Link} from 'react-router-dom';
 
 //Code Start now ============ ?
 const RegistrationLeft = () => {
@@ -25,13 +25,13 @@ const RegistrationLeft = () => {
   const navigate = useNavigate();
 
   // State for form fields
-  const [Email, setEmail] = useState("");
-  const [FullName, setFullName] = useState("");
-  const [Password, setPassword] = useState("");
+  const [Email, setEmail] = useState('');
+  const [FullName, setFullName] = useState('');
+  const [Password, setPassword] = useState('');
   // State for errors
-  const [EmailError, setEmailError] = useState("");
-  const [FullNameError, setFullNameError] = useState("");
-  const [PasswordError, setPasswordError] = useState("");
+  const [EmailError, setEmailError] = useState('');
+  const [FullNameError, setFullNameError] = useState('');
+  const [PasswordError, setPasswordError] = useState('');
 
   //State for loding
   const [Loding, setLoding] = useState(false);
@@ -65,27 +65,27 @@ const RegistrationLeft = () => {
   // Handle form submission
   const handleButton = () => {
     if (!Email || !ValidateEmail(Email)) {
-      setEmailError("Please enter a valid email address.");
+      setEmailError('Please enter a valid email address.');
     } else if (!FullName || !ValidateName(FullName)) {
-      setEmailError("");
-      setFullNameError("Please enter your full name.");
+      setEmailError('');
+      setFullNameError('Please enter your full name.');
     } else if (!Password || !ValidatePassword(Password)) {
-      setFullNameError("");
-      setPasswordError("Please enter a valid password.");
+      setFullNameError('');
+      setPasswordError('Please enter a valid password.');
     } else {
-      setEmailError("");
-      setFullNameError("");
-      setPasswordError("");
+      setEmailError('');
+      setFullNameError('');
+      setPasswordError('');
       setLoding(true);
 
       // Create user with email and password
       createUserWithEmailAndPassword(auth, Email, Password)
         .then((userinfo) => {
-          successToast("Your Registration is done", "top-left");
+          successToast('Your Registration is done', 'top-left');
         })
         .then(() => {
           sendEmailVerification(auth.currentUser).then(() => {
-            successToast("Please check your email", "top-left");
+            successToast('Please check your email', 'top-left');
           });
         })
         .then(() => {
@@ -94,7 +94,7 @@ const RegistrationLeft = () => {
           });
         })
         .then(() => {
-          const usersRef = ref(db, "user/");
+          const usersRef = ref(db, 'user/');
           set(push(usersRef), {
             uid: auth.currentUser.uid,
             userName: FullName,
@@ -103,24 +103,24 @@ const RegistrationLeft = () => {
           });
         })
         .then(() => {
-          console.log("Wirte data on user collection");
-          navigate("/login");
+          console.log('Wirte data on user collection');
+          navigate('/login');
         })
         .catch((err) => {
-          console.error("User Database Write Failds");
+          console.error('User Database Write Failds');
         })
         .catch((error) => {
           // const ourError = error.message.split("/")[1];
           // errorToast(ourError.slice(0, ourError.length - 2));
-          errorToast(error.code, "top-right");
+          errorToast(error.code, 'top-right');
         })
         .finally(() => {
-          setEmailError("");
-          setFullNameError("");
-          setPasswordError("");
-          setEmail("");
-          setFullName("");
-          setPassword("");
+          setEmailError('');
+          setFullNameError('');
+          setPasswordError('');
+          setEmail('');
+          setFullName('');
+          setPassword('');
           setLoding(false);
           setEyeOpen(false);
         });
@@ -182,7 +182,7 @@ const RegistrationLeft = () => {
                 </legend>
                 <div className="flex items-center">
                   <input
-                    type={EyeOpen ? "text" : "password"}
+                    type={EyeOpen ? 'text' : 'password'}
                     name="password"
                     value={Password}
                     onChange={handlePassword}
@@ -192,7 +192,8 @@ const RegistrationLeft = () => {
                   <span
                     className="pr-5 cursor-pointer"
                     onClick={handleEye}
-                    value={EyeOpen}>
+                    value={EyeOpen}
+                  >
                     {EyeOpen ? <FaEye /> : <FaEyeSlash />}
                   </span>
                 </div>
@@ -203,7 +204,8 @@ const RegistrationLeft = () => {
             <div className="flex items-center flex-col gap-y-3">
               <button
                 className="w-full py-[20px] rounded-[86px] bg-auth_bg_color font-nunito text-[22.64px] text-white font-medium"
-                onClick={handleButton}>
+                onClick={handleButton}
+              >
                 {Loding ? (
                   <BeatLoader
                     loading={Loding}
@@ -213,7 +215,7 @@ const RegistrationLeft = () => {
                     data-testid="loader"
                   />
                 ) : (
-                  "Sign up"
+                  'Sign up'
                 )}
               </button>
               <p className="font-nunito pt-5 cursor-pointer text-[15px]">

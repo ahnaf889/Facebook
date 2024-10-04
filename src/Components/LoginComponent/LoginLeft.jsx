@@ -1,24 +1,24 @@
-import React, { useState } from "react";
+import React, {useState} from 'react';
 import {
   FaGoogle,
   FaFacebookSquare,
   FaEyeSlash,
   FaEye,
   FaGithub,
-} from "react-icons/fa";
-import { useNavigate, Link } from "react-router-dom";
-import { ValidateEmail, ValidatePassword } from "../../Utils/Validate.js";
+} from 'react-icons/fa';
+import {useNavigate, Link} from 'react-router-dom';
+import {ValidateEmail, ValidatePassword} from '../../Utils/Validate.js';
 import {
   getAuth,
   signInWithEmailAndPassword,
   signInWithPopup,
   GoogleAuthProvider,
   FacebookAuthProvider,
-} from "firebase/auth";
-import { getDatabase, ref, set, push } from "firebase/database";
-import { successToast, errorToast } from "../../Utils/Toast.js";
-import BeatLoader from "react-spinners/BeatLoader.js";
-import { getTime } from "../../Utils/Moment/Moment.js";
+} from 'firebase/auth';
+import {getDatabase, ref, set, push} from 'firebase/database';
+import {successToast, errorToast} from '../../Utils/Toast.js';
+import BeatLoader from 'react-spinners/BeatLoader.js';
+import {getTime} from '../../Utils/Moment/Moment.js';
 
 //LoginLefat Starat Point
 const LoginLeft = () => {
@@ -36,8 +36,8 @@ const LoginLeft = () => {
 
   // Toggle handelLoginInput visibility
   const [loginInfo, setloginInfo] = useState({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   });
 
   //handelLoginInput funtion emplement
@@ -50,8 +50,8 @@ const LoginLeft = () => {
 
   // Toggle inputError state visibility
   const [loginError, setloginError] = useState({
-    emailError: "",
-    passwordError: "",
+    emailError: '',
+    passwordError: '',
   });
 
   /**
@@ -59,43 +59,42 @@ const LoginLeft = () => {
    * @param({})
    */
   const handelSignUp = () => {
-    const { email, password } = loginInfo;
+    const {email, password} = loginInfo;
     if (!email || !ValidateEmail(email)) {
       setloginError({
         ...loginError,
-        emailError: "Your email is wrong !!",
+        emailError: 'Your email is wrong !!',
       });
     } else if (!password || !ValidatePassword(password)) {
       setloginError({
         ...loginError,
-        passwordError: "Your password is wrong !!",
-        emailError: "",
+        passwordError: 'Your password is wrong !!',
+        emailError: '',
       });
     } else {
       setloginError({
         ...loginError,
-        passwordError: "",
-        emailError: "",
+        passwordError: '',
+        emailError: '',
       });
       setLoding(true);
       signInWithEmailAndPassword(auth, email, password)
         .then((userInfo) => {
-          console.log(userInfo);
-          successToast("Success your login");
+          successToast('Success your login');
         })
         .catch((Error) => {
-          errorToast(`${Error.code}`, "top-right");
+          errorToast(`${Error.code}`, 'top-right');
         })
         .finally(() => {
           setloginInfo({
             ...loginError,
-            email: "",
-            password: "",
+            email: '',
+            password: '',
           });
           setloginError({
             ...loginError,
-            passwordError: "",
-            emailError: "",
+            passwordError: '',
+            emailError: '',
           });
           setEyeOpen(false);
           setLoding(false);
@@ -117,7 +116,7 @@ const LoginLeft = () => {
         console.log(user);
       })
       .then(() => {
-        const usersRef = ref(db, "user/");
+        const usersRef = ref(db, 'user/');
         set(push(usersRef), {
           uid: auth.currentUser.uid,
           userEmail: auth.currentUser.email,
@@ -126,7 +125,7 @@ const LoginLeft = () => {
         });
       })
       .then(() => {
-        successToast("Your google login is done");
+        successToast('Your google login is done');
       })
       .catch((error) => {
         // Handle Errors here.
@@ -162,7 +161,10 @@ const LoginLeft = () => {
           {/* =========== Frist Design  */}
           <div>
             <span className="flex justify-center items-center text-[50px] pb-5 cursor-pointer">
-              <a href="https://github.com/ahnaf889" target="_">
+              <a
+                href="https://github.com/ahnaf889"
+                target="_"
+              >
                 <FaGithub />
               </a>
             </span>
@@ -173,7 +175,8 @@ const LoginLeft = () => {
               {/* ===== Google ===== */}
               <div
                 className="flex items-center cursor-pointer gap-x-3 w-[200.9px] px-4 h-[58.52px] border-auth_font_color border-opacity-35 rounded-md border-2"
-                onClick={handelGoogleLogin}>
+                onClick={handelGoogleLogin}
+              >
                 <span className="text-blue-800 text-[20px]">
                   <FaGoogle />
                 </span>
@@ -184,7 +187,8 @@ const LoginLeft = () => {
               {/* ===== Facebook ===== */}
               <div
                 className="flex items-center cursor-pointer gap-x-3 w-[200.9px] px-4 h-[58.52px] border-auth_font_color border-opacity-35 rounded-md border-2"
-                onClick={handelFacebookLoign}>
+                onClick={handelFacebookLoign}
+              >
                 <span className="text-blue-800 text-[20px]">
                   <FaFacebookSquare />
                 </span>
@@ -223,7 +227,7 @@ const LoginLeft = () => {
               </legend>
               <div className="flex items-center">
                 <input
-                  type={EyeOpen ? "text" : "password"}
+                  type={EyeOpen ? 'text' : 'password'}
                   name="password"
                   id="password"
                   value={loginInfo.password}
@@ -234,7 +238,8 @@ const LoginLeft = () => {
                 <span
                   className="pr-5 cursor-pointer"
                   onClick={() => setEyeOpen(!EyeOpen)}
-                  value={EyeOpen}>
+                  value={EyeOpen}
+                >
                   {EyeOpen ? <FaEye /> : <FaEyeSlash />}
                 </span>
               </div>
@@ -248,7 +253,8 @@ const LoginLeft = () => {
           <div className="flex items-center flex-col gap-y-3">
             <button
               className="w-full py-[20px] rounded-2xl bg-auth_bg_color font-nunito text-[22.64px] text-white font-medium"
-              onClick={handelSignUp}>
+              onClick={handelSignUp}
+            >
               {Loding ? (
                 <BeatLoader
                   loading={Loding}
@@ -258,7 +264,7 @@ const LoginLeft = () => {
                   data-testid="loader"
                 />
               ) : (
-                "Sign Up"
+                'Sign Up'
               )}
             </button>
             <p className="font-nunito pt-5 cursor-pointer text-[15px]">

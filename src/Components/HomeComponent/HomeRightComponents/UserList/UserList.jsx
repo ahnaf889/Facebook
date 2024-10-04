@@ -1,6 +1,7 @@
 import React from 'react';
 import {PiDotsThreeOutlineVerticalFill} from 'react-icons/pi';
 import ProfileGroup from '../../../../assets/ProfileGroup.png';
+import {FaPlus} from 'react-icons/fa6';
 
 const UserList = () => {
   return (
@@ -35,8 +36,8 @@ const UserList = () => {
                   </p>
                 </div>
                 <div>
-                  <button className="bg-auth_bg_color text-white px-5 py-1 rounded-md">
-                    Join
+                  <button className="bg-auth_bg_color text-white p-3 rounded-md">
+                    <FaPlus />
                   </button>
                 </div>
               </div>

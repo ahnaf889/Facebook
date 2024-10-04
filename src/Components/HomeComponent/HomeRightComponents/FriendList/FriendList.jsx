@@ -35,9 +35,9 @@ const FriendList = () => {
                   </p>
                 </div>
                 <div>
-                  <button className="bg-auth_bg_color text-white px-5 py-1 rounded-md">
-                    Join
-                  </button>
+                  <p className="font-poppins text-xs font-normal">
+                    Today, 8:56pm
+                  </p>
                 </div>
               </div>
             </div>

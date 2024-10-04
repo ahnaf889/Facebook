@@ -5,64 +5,77 @@ import {FaFacebookMessenger} from 'react-icons/fa6';
 import {FaRegBell} from 'react-icons/fa6';
 import {CiSettings} from 'react-icons/ci';
 import {LuLogOut} from 'react-icons/lu';
+import {NavLink, useLocation} from 'react-router-dom';
 
 const HomeLeft = () => {
   /**
    * todo: test state implemtnt
    * @package({})
    */
-  const [test, settest] = useState('home');
+  const loction = useLocation();
+  const path = loction.pathname.split('/')[1];
+  console.log(path);
 
   return (
     <>
-      <div className="bg-auth_bg_color w-[186px] h-[920px] rounded-2xl">
-        <div className="flex flex-col items-center justify-center gap-y-24  mt-14">
-          <picture className=" cursor-pointer">
+      <div className="bg-auth_bg_color h-[920px] rounded-2xl">
+        <div className="flex flex-col items-center justify-centr text-white gap-y-24 w-[186px] mt-14">
+          <picture className="cursor-pointer">
             <img
               src={Profile}
               alt={Profile}
             />
           </picture>
-          <span
-            className={`${
-              test == 'home' &&
-              'text-[40px] cursor-pointer iconsBg rounded-l-lg  text-auth_bg_color bg-white px-16 py-5'
-            } text-[40px] cursor-pointer`}
-          >
-            <IoHomeOutline />
-          </span>
-          <span
-            className={`${
-              test == 'chat' &&
-              'text-[40px] cursor-pointer iconsBg rounded-l-lg  text-auth_bg_color bg-white px-16 py-5'
-            } text-[40px] cursor-pointer`}
-          >
-            <FaFacebookMessenger />
-          </span>
-          <span
-            className={`${
-              test == 'notification' &&
-              'text-[40px] cursor-pointer iconsBg rounded-l-lg  text-auth_bg_color bg-white px-16 py-5'
-            } text-[40px] cursor-pointer`}
-          >
-            <FaRegBell />
-          </span>
-          <span
-            className={`${
-              test == 'setting' &&
-              'text-[40px] cursor-pointer iconsBg rounded-l-lg  text-auth_bg_color bg-white px-16 py-5'
-            } text-[40px] cursor-pointer`}
-          >
-            <CiSettings />
-          </span>
-          <span
-            className={`${
-              test == 'logOut' &&
-              'text-[40px] cursor-pointer iconsBg rounded-l-lg  text-auth_bg_color bg-white  py-6'
-            } text-[40px] cursor-pointer`}
-          >
-            <LuLogOut />
-          </span>
+          <NavLink to={'/'}>
+            <span
+              className={`${
+                path == '' &&
+                'text-[40px] cursor-pointer iconsBg flex rounded-l-lg  text-auth_bg_color bg-white px-16 py-5'
+              } text-[40px] cursor-pointer`}
+            >
+              <IoHomeOutline />
+            </span>
+          </NavLink>
+          <NavLink to={'/chat'}>
+            <span
+              className={`${
+                path == 'chat' &&
+                'text-[40px] cursor-pointer iconsBg flex rounded-l-lg  text-auth_bg_color bg-white px-16 py-5'
+              } text-[40px] cursor-pointer`}
+            >
+              <FaFacebookMessenger />
+            </span>
+          </NavLink>
+          <NavLink to={'/notification'}>
+            <span
+              className={`${
+                path == 'notification' &&
+                'text-[40px] cursor-pointer iconsBg flex rounded-l-lg  text-auth_bg_color bg-white px-16 py-5'
+              } text-[40px] cursor-pointer`}
+            >
+              <FaRegBell />
+            </span>
+          </NavLink>
+          <NavLink to={'/setting'}>
+            <span
+              className={`${
+                path == 'setting' &&
+                'text-[40px] cursor-pointer iconsBg flex rounded-l-lg  text-auth_bg_color bg-white px-16 py-5'
+              } text-[40px] cursor-pointer`}
+            >
+              <CiSettings />
+            </span>
+          </NavLink>
+          <NavLink to={'/logout'}>
+            <span
+              className={`${
+                path == 'logout' &&
+                'text-[40px] cursor-pointer iconsBg flex rounded-l-lg  text-auth_bg_color bg-white  px-16 py-5'
+              } text-[40px] cursor-pointer`}
+            >
+              <LuLogOut />
+            </span>
+          </NavLink>
         </div>
       </div>
     </>

@@ -36,7 +36,7 @@ const BlockedUsers = () => {
                 </div>
                 <div>
                   <button className="bg-auth_bg_color text-white px-5 py-1 rounded-md">
-                    Join
+                    Unblock
                   </button>
                 </div>
               </div>
