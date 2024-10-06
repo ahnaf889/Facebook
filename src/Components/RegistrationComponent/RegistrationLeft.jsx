@@ -98,12 +98,12 @@ const RegistrationLeft = () => {
           set(push(usersRef), {
             uid: auth.currentUser.uid,
             userName: FullName,
+            userProfile: '',
             userEmail: auth.currentUser.email,
             createdAt: getTime(),
           });
         })
         .then(() => {
-          console.log('Wirte data on user collection');
           navigate('/login');
         })
         .catch((err) => {

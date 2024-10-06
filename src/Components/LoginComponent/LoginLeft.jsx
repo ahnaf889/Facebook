@@ -113,16 +113,24 @@ const LoginLeft = () => {
         const credential = FacebookAuthProvider.credentialFromResult(result);
         const accessToken = credential.accessToken;
         const user = result.user;
-        console.log(user);
+        return user;
       })
-      .then(() => {
+      .then((userCreadit) => {
+        console.log(userCreadit);
+
+        const {photoUrl, localId, email, displayName} =
+          userCreadit.reloadUserInfo;
         const usersRef = ref(db, 'user/');
         set(push(usersRef), {
-          uid: auth.currentUser.uid,
-          userEmail: auth.currentUser.email,
-          userName: auth.currentUser.displayName,
+          uid: localId,
+          userEmail: email,
+          userName: displayName,
+          userProfile: photoUrl,
           createdAt: getTime(),
         });
+      })
+      .then(() => {
+        navigate('/');
       })
       .then(() => {
         successToast('Your google login is done');
